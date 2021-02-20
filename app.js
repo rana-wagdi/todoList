@@ -6,11 +6,13 @@ const app = express();
 app.get("/", function(req, res){
 
     var today = new Date();
+    var currentDay = today.getDay();
+    if (currentDay === 6 || currentDay === 0){
 
-    if (today.getDay() === 6 || today.getDay() === 0){
-        res.send("Yay! it's the weekend")
+        res.sendFile(__dirname + "/index.html")
     }else {
-        res.send("Boo! I have to work !")
+
+        res.write("<h1> Yay! it's the weekend </h1>");
     }
 })
 
