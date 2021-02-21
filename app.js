@@ -5,7 +5,9 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-var items = [];
+var items = ["buy", "food", " Cook", "play football"];
+   
+
 
 app.set('view engine', 'ejs');
 
