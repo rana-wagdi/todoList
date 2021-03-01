@@ -74,6 +74,7 @@ app.get("/:customListName", function(req, res){
           items: defaultItems
         })
         list.save();
+        res.redirect("/")
       } else{
         res.render("list", {listTitle: foundList.name, newListItems: foundList.items})
       }
