@@ -87,27 +87,40 @@ app.get("/:customListName", function(req, res){
 app.post("/", function(req, res){
 
   const   itemName = req.body.newItem;
+  const   listName = req.body.list;
 
   const item = new Item ({
     name: itemName
   });
 
-  item.save();
-  res.redirect("/")
+  if (listName === "Today"){
+    item.save();
+    res.redirect("/")
+  } else {
+    List.findOne({name: listName}, function(err, foundList){
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/" + listName)
+    })
+  }
+
      
 })
 
 app.post("/delete", function(req, res){
   const checkBoxId = req.body.checkbox ;
+  const listName = req.body.listName;
 
-  Item.findByIdAndDelete(checkBoxId, function(err){
-    if (err){
-      console.log(err);
-    } else {
-      console.log("Successfully deleted checked item")
-    }
-  })
-})
+  if (listName === "Today"){
+    Item.findByIdAndDelete(checkBoxId, function(err){
+      if (!err){
+        console.log("Successfully deleted checked item");
+  }
+    })
+} else {
+  
+}
+});
 
 app.get("/work", function(req, res){
     res.render("list", {listTitle: "Work List", newListItems: workItems})
