@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-Parser");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const _ = require("lodash"); //to lowercase
 // const date = require(__dirname + "/date.js");
 
 const app = express();
@@ -118,7 +119,11 @@ app.post("/delete", function(req, res){
   }
     })
 } else {
-  
+    List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkBoxId}}}, function(err, foundList){
+      if (!err){
+        res.redirect("/" + listName);
+      }
+    })
 }
 });
 
